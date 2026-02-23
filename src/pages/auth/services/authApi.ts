@@ -1,8 +1,9 @@
 import axiosInstance from '@/api/axiosInstance';
-import type { AuthResponse, LoginCredentials } from '../types';
+import type { AuthResponse, LoginCredentials, User } from '../types';
 
 const LOGIN_URL = 'auth/login';
 const LOGOUT_URL = 'auth/logout';
+const PROFILE_URL = 'auth/profile';
 
 export const LoginUser = async (
   credentials: LoginCredentials
@@ -16,4 +17,9 @@ export const LoginUser = async (
 
 export const LogoutUser = async (): Promise<void> => {
   await axiosInstance.post(LOGOUT_URL);
+};
+
+export const GetCurrentUser = async (): Promise<User> => {
+  const response = await axiosInstance.get(PROFILE_URL);
+  return response.data?.user as User;
 };

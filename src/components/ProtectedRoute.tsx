@@ -1,10 +1,14 @@
-import { useAuthStore } from '@/store/authStore';
 import { Navigate, Outlet } from 'react-router-dom';
+import { useAuthQuery } from '@/hooks/useAuthQuery';
 
 const ProtectedRoute = () => {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const { data: user, isLoading } = useAuthQuery();
 
-  if (!isAuthenticated) {
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user?.id || !user?.username) {
     return <Navigate to="/" replace />;
   }
 
