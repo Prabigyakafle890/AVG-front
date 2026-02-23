@@ -39,7 +39,6 @@ export default defineConfig(({ mode }) => {
           manualChunks: {
             react: ['react', 'react-dom', 'react-router-dom'],
             tanstack: ['@tanstack/react-query'],
-            state: ['zustand'],
             http: ['axios'],
           },
         },

@@ -16,17 +16,19 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-// axiosInstance.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     if (error.response?.status === 401) {
-
-//       if (!window.location.pathname.includes('/login')) {
-//         window.location.href = '/login';
-//       }
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.status === 401) {
+      if (
+        !window.location.pathname.includes('/login') &&
+        window.location.pathname !== '/'
+      ) {
+        window.location.href = '/';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default axiosInstance;

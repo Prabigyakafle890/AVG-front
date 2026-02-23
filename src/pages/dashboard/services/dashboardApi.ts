@@ -1,5 +1,5 @@
 import axiosInstance from '@/api/axiosInstance';
-import type { OverviewStats, StateBreakdown } from '../types';
+import type { OverviewStats, StateBreakdown } from '../../auth/types';
 
 const OVERVIEW_URL = 'staffs/dashboard/overview/';
 const STATE_BREAKDOWN_URL = 'staffs/dashboard/state-breakdown/';
