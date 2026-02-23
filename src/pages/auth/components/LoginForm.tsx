@@ -25,9 +25,9 @@ export default function LoginForm() {
         </p>
       </div>
 
-      <form className="space-y-6" onSubmit={handleSubmit}>
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="space-y-2">
-          <label className="block text-sm font-bold tracking-wider text-slate-700 uppercase">
+          <label className="mt-2 mb-1 block px-2 py-1 text-sm font-bold tracking-wider text-slate-700 uppercase">
             Username
           </label>
           <input
@@ -41,7 +41,7 @@ export default function LoginForm() {
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-bold tracking-wider text-slate-700 uppercase">
+          <label className="mt-2 mb-1 block px-2 py-1 text-sm font-bold tracking-wider text-slate-700 uppercase">
             Password
           </label>
           <input
@@ -57,7 +57,7 @@ export default function LoginForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="mt-4 w-full rounded-lg bg-[#2da1db] py-4 text-lg font-bold text-white transition-all hover:bg-[#2589ba] active:scale-[0.99] disabled:opacity-50"
+          className="mt-4 w-full rounded-lg bg-[#2da1db] py-3 text-lg font-bold text-white transition-all hover:bg-[#2589ba] active:scale-[0.99] disabled:opacity-50"
         >
           {isPending ? 'Signing in...' : 'Sign In'}
         </button>
