@@ -15,8 +15,6 @@ export const useDashboard = () => {
     staleTime: 5 * 60 * 1000,
   });
 
-  console.log('overviewData', overviewData);
-
   const {
     isLoading: isBreakdownLoading,
     error,
@@ -29,36 +27,9 @@ export const useDashboard = () => {
 
   const isLoading = isOverviewLoading || isBreakdownLoading;
 
-  const stats = {
-    totalCandidates: overviewData?.total_candidates ?? 0,
-    totalVets: overviewData?.total_veterinarians ?? 0,
-    totalTechs: overviewData?.total_vet_techs ?? 0,
-    vetsPercentage: (
-      ((overviewData?.total_veterinarians ?? 0) /
-        (overviewData?.total_candidates || 1)) *
-      100
-    ).toFixed(1),
-    techsPercentage: (
-      ((overviewData?.total_vet_techs ?? 0) /
-        (overviewData?.total_candidates || 1)) *
-      100
-    ).toFixed(1),
-  };
-
-  const breakdown =
-    breakdownData && Array.isArray(breakdownData)
-      ? breakdownData.map((item) => ({
-          state: item.state,
-          total: item.total ?? 0,
-          veterinarians: item.veterinarians ?? 0,
-          vet_techs: item.vet_techs ?? 0,
-        }))
-      : [];
-
   return {
-    overview: overviewData,
-    breakdown,
-    stats,
+    overviewData,
+    breakdownData,
     isLoading,
     error,
     refetch: () => {

@@ -3,10 +3,10 @@ import { useDashboard } from './hooks/useDashboard';
 import { DashboardSkeleton, StatCard, StateCard } from './components';
 
 export default function Dashboard() {
-  const { stats, breakdown, isLoading } = useDashboard();
+  const { overviewData, breakdownData, isLoading } = useDashboard();
 
-  console.log('status', stats);
-  console.log('breakdown', breakdown);
+  console.log('overviewData', overviewData);
+  console.log('breakdown', breakdownData);
 
   if (isLoading) {
     return (
@@ -26,30 +26,30 @@ export default function Dashboard() {
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3">
           <StatCard
             title="Total Candidates"
-            value={stats.totalCandidates.toLocaleString()}
+            value={overviewData?.totalCandidates.toLocaleString() ?? '0'}
           />
           <StatCard
             title="Veterinarians"
-            value={stats.totalVets.toLocaleString()}
+            value={overviewData?.totalVeterinarians.toLocaleString() ?? '0'}
           />
           <StatCard
             title="Vet Techs"
-            value={stats.totalTechs.toLocaleString()}
+            value={overviewData?.totalVetTechnicians.toLocaleString() ?? '0'}
           />
         </div>
-
         <div className="space-y-6">
           <h2 className="text-lg font-medium text-gray-900">
             Breakdown by State
           </h2>
+
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5">
-            {breakdown.map((item) => (
+            {(breakdownData?.stateBreakdown ?? []).map((item) => (
               <StateCard
                 key={item.state}
                 state={item.state}
-                total={item.total.toLocaleString()}
-                vets={item.veterinarians.toLocaleString()}
-                techs={item.vet_techs.toLocaleString()}
+                total={(item.totalCandidates ?? 0).toLocaleString()}
+                vets={(item.totalVeterinarians ?? 0).toLocaleString()}
+                techs={(item.totalVetTechnicians ?? 0).toLocaleString()}
               />
             ))}
           </div>
