@@ -1,4 +1,5 @@
 import { useAuth } from '@/pages/auth/hooks/useAuth';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import clsx from 'clsx';
 import { useState } from 'react';
@@ -10,14 +11,19 @@ export default function AdminLayout({
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { logout, isPending } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   function toggleSidebar() {
     setIsSidebarOpen((prev) => !prev);
   }
 
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+
   return (
     <section className="flex min-h-screen bg-white font-sans">
-      {/* Sidebar */}
       <aside
         className={clsx(
           'flex flex-col bg-[#0a2e3f] text-white transition-all duration-300 ease-in-out',
@@ -42,7 +48,12 @@ export default function AdminLayout({
                 d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
               />
             </svg>
-            <span className="text-sm font-medium">Dashboard</span>
+            <button
+              onClick={() => navigate('/dashboard')}
+              className={`text-sm font-medium ${isActive('/dashboard') ? 'text-white' : 'text-gray-300 hover:text-white'}`}
+            >
+              Dashboard
+            </button>
           </div>
           <div className="flex items-center space-x-3 rounded-lg px-4 py-3 text-gray-300 hover:bg-[#1e4a5e] hover:text-white">
             <svg
@@ -58,7 +69,12 @@ export default function AdminLayout({
                 d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
               />
             </svg>
-            <span className="text-sm font-medium">Veterinarians & Techs</span>
+            <button
+              onClick={() => navigate('/veterinarians')}
+              className={`text-sm font-medium ${isActive('/veterinarians') ? 'text-white' : 'text-gray-300 hover:text-white'}`}
+            >
+              Veterinarians & Techs
+            </button>
           </div>
         </nav>
       </aside>
