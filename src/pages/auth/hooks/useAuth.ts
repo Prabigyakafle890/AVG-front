@@ -12,10 +12,10 @@ export const useAuth = () => {
   const LoginMutation = useMutation({
     mutationFn: (credentials: LoginCredentials) => LoginUser(credentials),
 
-    onSuccess: (data: AuthResponse) => {
-      queryClient.setQueryData(['auth', 'profile'], data.user);
+    onSuccess: (res: AuthResponse) => {
+      queryClient.setQueryData(['auth', 'profile'], res.data.user);
 
-      const welcomeName = data.user.firstName || data.user.username;
+      const welcomeName = res.data.user.firstName || res.data.user.username;
       toast.success(`Welcome back, ${welcomeName}!`);
       navigate('/dashboard');
     },

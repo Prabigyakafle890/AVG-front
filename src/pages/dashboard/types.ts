@@ -4,6 +4,10 @@ export interface OverviewStats {
   totalVetTechnicians: number;
 }
 
+export interface ApiResponse<T> {
+  data: T;
+}
+
 type StateBreakdownItem = {
   state: string;
   totalCandidates: number;
