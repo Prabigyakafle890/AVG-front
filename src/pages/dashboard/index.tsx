@@ -26,15 +26,19 @@ export default function Dashboard() {
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3">
           <StatCard
             title="Total Candidates"
-            value={overviewData?.totalCandidates.toLocaleString() ?? '0'}
+            value={overviewData?.data.totalCandidates.toLocaleString() ?? '0'}
           />
           <StatCard
             title="Veterinarians"
-            value={overviewData?.totalVeterinarians.toLocaleString() ?? '0'}
+            value={
+              overviewData?.data.totalVeterinarians.toLocaleString() ?? '0'
+            }
           />
           <StatCard
             title="Vet Techs"
-            value={overviewData?.totalVetTechnicians.toLocaleString() ?? '0'}
+            value={
+              overviewData?.data.totalVetTechnicians.toLocaleString() ?? '0'
+            }
           />
         </div>
         <div className="space-y-6">
@@ -43,7 +47,7 @@ export default function Dashboard() {
           </h2>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5">
-            {(breakdownData?.stateBreakdown ?? []).map((item) => (
+            {(breakdownData?.data.stateBreakdown ?? []).map((item) => (
               <StateCard
                 key={item.state}
                 state={item.state}

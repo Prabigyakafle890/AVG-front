@@ -1,11 +1,12 @@
+export interface ApiResponse<T> {
+  message: string;
+  data: T;
+}
+
 export interface OverviewStats {
   totalCandidates: number;
   totalVeterinarians: number;
   totalVetTechnicians: number;
-}
-
-export interface ApiResponse<T> {
-  data: T;
 }
 
 type StateBreakdownItem = {
@@ -18,3 +19,6 @@ type StateBreakdownItem = {
 export interface StateBreakdown {
   stateBreakdown: StateBreakdownItem[];
 }
+
+export type OverviewStatsResponse = ApiResponse<OverviewStats>;
+export type StateBreakdownResponse = ApiResponse<StateBreakdown>;

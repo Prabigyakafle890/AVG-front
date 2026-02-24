@@ -1,4 +1,9 @@
 export interface ApiResponse<T> {
+  message: string;
+  data: T;
+}
+
+export interface PaginatedResponse<T> {
   count: number;
   next: string | null;
   previous: string | null;
@@ -33,3 +38,7 @@ export type ContactStatus =
   | 'INTERVIEW_SCHEDULED'
   | 'NOT_INTERESTED'
   | 'IN_QUEUE';
+
+export type VeterinariansResponse = ApiResponse<
+  PaginatedResponse<Veterinarian>
+>;

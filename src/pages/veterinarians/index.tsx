@@ -3,19 +3,12 @@ import { VeterinariansTable } from './components/veterinariansTable';
 import { useVetsList } from './hooks/useVetsList';
 
 export default function VeterinariansPage() {
-  const {
-    data: vetsData,
-    isLoading: isVetsLoading,
-    error: vetsError,
-  } = useVetsList();
+  const { data: vetsData, isLoading: isVetsLoading } = useVetsList();
 
   if (isVetsLoading) {
     return <p>Loading veterinarians...</p>;
   }
-
-  if (vetsError) {
-    return <p>Error loading veterinarians: {vetsError.message}</p>;
-  }
+  console.log('Index', vetsData);
 
   return (
     <AdminLayout>
@@ -27,7 +20,7 @@ export default function VeterinariansPage() {
           Manage and track outreach to veterinary professionals
         </p>
       </div>
-      <VeterinariansTable data={vetsData?.results || []} />
+      <VeterinariansTable data={vetsData?.data.results || []} />
     </AdminLayout>
   );
 }

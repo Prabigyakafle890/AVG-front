@@ -1,6 +1,15 @@
 import LoginForm from './components/LoginForm';
+import { Navigate } from 'react-router-dom';
+import { useAuthQuery } from '@/hooks/useAuthQuery';
 
 export const LoginPage = () => {
+  const { data, isLoading } = useAuthQuery();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (data?.id) {
+    return <Navigate to="dashboard/" replace />;
+  }
   return (
     <div className="flex min-h-screen w-full bg-white font-sans">
       <div className="relative hidden items-center justify-center overflow-hidden bg-[#1a4a5e] lg:flex lg:w-1/2">

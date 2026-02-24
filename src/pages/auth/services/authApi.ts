@@ -21,5 +21,5 @@ export const LogoutUser = async (): Promise<void> => {
 
 export const GetCurrentUser = async (): Promise<User> => {
   const response = await axiosInstance.get(PROFILE_URL);
-  return response.data?.user as User;
+  return response.data.data?.user as User;
 };

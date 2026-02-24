@@ -32,6 +32,7 @@ const formatStatus = (status: ContactStatus): string => {
 };
 
 export function VeterinariansTable({ data }: Props) {
+  console.log('Vets', data);
   return (
     <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
       <table className="w-full border-collapse bg-white">
