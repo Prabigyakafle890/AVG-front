@@ -2,58 +2,58 @@ import type { Veterinarian, ContactStatus } from '../types';
 import { formatDate } from '../utils/formatDate';
 import { EditVetForm } from './editVeterinarians';
 import { useState } from 'react';
+import { Pencil, Trash2 } from 'lucide-react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 interface Props {
   data: Veterinarian[];
 }
 
-const statusBadgeConfig: Record<
-  ContactStatus,
-  { color: string; label: string }
-> = {
-  NOT_CONTACTED: {
-    color: 'bg-gray-100 text-gray-800',
-    label: 'Not Contacted',
+const STATUS: Record<ContactStatus, { color: string; label: string }> = {
+  NOT_CONTACTED: { color: 'bg-gray-100 text-gray-800', label: 'Not Contacted' },
+  CONTACTED: { color: 'bg-emerald-100 text-emerald-800', label: 'Contacted' },
+  FOLLOW_UP_NEEDED: {
+    color: 'bg-orange-100 text-orange-800',
+    label: 'Follow Up Needed',
   },
   INTERVIEW_SCHEDULED: {
     color: 'bg-blue-100 text-blue-800',
     label: 'Interview Scheduled',
   },
-  NOT_INTERESTED: {
-    color: 'bg-red-100 text-red-800',
-    label: 'Not Interested',
+  INTERVIEW_COMPLETED: {
+    color: 'bg-indigo-100 text-indigo-800',
+    label: 'Interview Completed',
   },
-  IN_QUEUE: {
-    color: 'bg-yellow-100 text-yellow-800',
-    label: 'In Queue',
-  },
+  HIRED: { color: 'bg-green-100 text-green-800', label: 'Hired' },
+  NOT_INTERESTED: { color: 'bg-red-100 text-red-800', label: 'Not Interested' },
+  IN_QUEUE: { color: 'bg-yellow-100 text-yellow-800', label: 'In Queue' },
 };
 
-const formatStatus = (status: ContactStatus): string => {
-  return statusBadgeConfig[status]?.label || status.replace(/_/g, ' ');
-};
+const HEADERS = [
+  'Name',
+  'State',
+  'City',
+  'County',
+  'Profession',
+  'License #',
+  'Issue Date',
+  'Expiration Date',
+  'Contact Status',
+  'Assigned to',
+  'Phone',
+  'Email',
+  'Action',
+];
 
 export function VeterinariansTable({ data }: Props) {
-  console.log('Vets', data);
-
-  const tableHeaders = [
-    'Name',
-    'State',
-    'County',
-    'Profession',
-    'License #',
-    'Issue Date',
-    'Expiration Date',
-    'Assigned to',
-    'Status',
-    'Phone',
-    'Email',
-    'Action',
-  ];
-
   const [editingVetId, setEditingVetId] = useState<number | null>(null);
-
-  const handleClose = () => setEditingVetId(null);
 
   return (
     <div className="relative">
@@ -61,66 +61,59 @@ export function VeterinariansTable({ data }: Props) {
         <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 p-4 backdrop-blur-sm">
           <div className="relative my-8 w-full max-w-2xl">
             <div className="rounded-xl border border-slate-200 bg-linear-to-br from-slate-50 to-slate-100 shadow-2xl">
-              <EditVetForm vetId={editingVetId} onClose={handleClose} />
+              <EditVetForm
+                vetId={editingVetId}
+                onClose={() => setEditingVetId(null)}
+              />
             </div>
           </div>
         </div>
       )}
-      <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
-        <table className="w-full border-collapse bg-white">
-          <thead>
-            <tr className="border-b border-gray-200 bg-gray-50">
-              {tableHeaders.map((header) => (
-                <th key={header} className="divide-y divide-gray-200">
-                  {header}
-                </th>
-              ))}
-            </tr>
-          </thead>
 
-          <tbody className="divide-y divide-gray-200">
+      <div className="overflow-hidden rounded-lg border border-gray-200 shadow-sm">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              {HEADERS.map((h) => (
+                <TableHead key={h}>{h}</TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+
+          <TableBody>
             {data.map((vet) => (
-              <tr
-                key={vet.id}
-                className="transition-colors duration-150 hover:bg-gray-50"
-              >
-                <td className="px-4 py-3 text-sm whitespace-nowrap text-gray-900">
+              <TableRow key={vet.id}>
+                <TableCell className="font-medium text-gray-900">
                   {vet.fullName}
-                </td>
-                <td className="px-4 py-3 text-sm whitespace-nowrap text-gray-600">
-                  {vet.state}
-                </td>
-                <td className="px-4 py-3 text-sm whitespace-nowrap text-gray-600">
-                  {vet.city}
-                </td>
-                <td className="px-4 py-3 text-sm whitespace-nowrap text-gray-600">
-                  {vet.county || '—'}
-                </td>
-                <td className="px-4 py-3 text-sm whitespace-nowrap text-gray-600">
-                  {vet.licenseProfession}
-                </td>
-                <td className="px-4 py-3 font-mono text-sm whitespace-nowrap text-gray-600">
-                  {vet.licenseNumber}
-                </td>
-                <td className="px-4 py-3 text-sm whitespace-nowrap text-gray-600">
-                  {formatDate(vet.issueDate)}
-                </td>
-                <td className="px-4 py-3 text-sm whitespace-nowrap text-gray-600">
-                  {formatDate(vet.expirationDate)}
-                </td>
-                <td className="px-4 py-3 text-sm whitespace-nowrap">
+                </TableCell>
+
+                <TableCell>{vet.state}</TableCell>
+                <TableCell>{vet.city}</TableCell>
+                <TableCell>{vet.county || '—'}</TableCell>
+                <TableCell>{vet.licenseProfession}</TableCell>
+
+                <TableCell className="font-mono">{vet.licenseNumber}</TableCell>
+
+                <TableCell>{formatDate(vet.issueDate)}</TableCell>
+                <TableCell>{formatDate(vet.expirationDate)}</TableCell>
+
+                <TableCell>
                   <span
-                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusBadgeConfig[vet.contactStatus]?.color || 'bg-gray-100 text-gray-800'}`}
+                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS[vet.contactStatus].color}`}
                   >
-                    {formatStatus(vet.contactStatus)}
+                    {STATUS[vet.contactStatus].label}
                   </span>
-                </td>
-                <td className="px-4 py-3 text-sm whitespace-nowrap text-gray-600">
-                  {vet.assignedTo ?? (
+                </TableCell>
+
+                <TableCell>
+                  {vet.assignedTo?.fullName ?? (
                     <span className="text-gray-400 italic">Unassigned</span>
                   )}
-                </td>
-                <td className="px-4 py-3 text-sm whitespace-nowrap text-gray-600">
+                </TableCell>
+
+                <TableCell>{vet.phone || '—'}</TableCell>
+
+                <TableCell>
                   {vet.email ? (
                     <a
                       href={`mailto:${vet.email}`}
@@ -131,27 +124,38 @@ export function VeterinariansTable({ data }: Props) {
                   ) : (
                     <span className="text-gray-400">—</span>
                   )}
-                </td>
-                <td className="px-4 py-3 text-sm whitespace-nowrap">
-                  <button
-                    onClick={() => setEditingVetId(vet.id)}
-                    className="text-blue-600 hover:text-blue-800 hover:underline"
-                  >
-                    Edit
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </TableCell>
 
-        {data.length > 0 && (
+                <TableCell>
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setEditingVetId(vet.id)}
+                      aria-label="Edit veterinarian"
+                      className="text-blue-600 transition-colors hover:text-blue-800"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </button>
+
+                    <button
+                      type="button"
+                      aria-label="Delete veterinarian"
+                      className="text-red-600 transition-colors hover:text-red-800"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+
+        {data.length > 0 ? (
           <div className="border-t border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-600">
             Showing {data.length} record{data.length !== 1 ? 's' : ''}
           </div>
-        )}
-
-        {data.length === 0 && (
+        ) : (
           <div className="py-8 text-center text-gray-500">
             No veterinarians found
           </div>

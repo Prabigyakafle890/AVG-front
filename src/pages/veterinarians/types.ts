@@ -1,3 +1,15 @@
+export type Status = 'ACTIVE' | 'INACTIVE';
+
+export type ContactStatus =
+  | 'NOT_CONTACTED'
+  | 'IN_QUEUE'
+  | 'CONTACTED'
+  | 'FOLLOW_UP_NEEDED'
+  | 'INTERVIEW_SCHEDULED'
+  | 'INTERVIEW_COMPLETED'
+  | 'HIRED'
+  | 'NOT_INTERESTED';
+
 export interface ApiResponse<T> {
   message: string;
   data: T;
@@ -10,7 +22,7 @@ export interface PaginatedResponse<T> {
   results: T[];
 }
 
-export interface AddedBy {
+export interface User {
   id: number;
   fullName: string;
 }
@@ -26,27 +38,33 @@ export interface Veterinarian {
   issueDate: string;
   expirationDate: string;
   contactStatus: ContactStatus;
-  assignedTo: string | null;
-  addedBy: AddedBy;
+  assignedTo: User;
+  addedBy: User;
   email: string | null;
   phone: string | null;
   notes: string | null;
 }
 
-export interface VeterinarianDetail extends Veterinarian {
+export interface VeterinarianDetail {
+  id: number;
   firstName: string;
   lastName: string;
-  zipCode: string;
+  state: string;
+  city: string;
+  county: string;
+  licenseProfession: string;
+  licenseNumber: string;
   status: Status;
+  issueDate: string;
+  expirationDate: string;
+  contactStatus: ContactStatus;
+  assignedTo: User | null;
+  addedBy: User;
+  email: string | null;
+  phone: string | null;
+  notes: string | null;
+  zipCode: string;
 }
-
-export type Status = 'ACTIVE' | 'INACTIVE';
-
-export type ContactStatus =
-  | 'NOT_CONTACTED'
-  | 'INTERVIEW_SCHEDULED'
-  | 'NOT_INTERESTED'
-  | 'IN_QUEUE';
 
 export type VeterinariansResponse = ApiResponse<
   PaginatedResponse<Veterinarian>

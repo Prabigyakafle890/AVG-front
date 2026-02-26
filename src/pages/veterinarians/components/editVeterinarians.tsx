@@ -243,7 +243,7 @@ export const EditVetForm = ({ vetId, onClose }: Props) => {
           </label>
           <input
             name="assignedTo"
-            value={formData.assignedTo ?? ''}
+            value={formData.assignedTo?.fullName ?? ''}
             onChange={handleChange}
             className="w-full rounded-md border border-gray-200 p-2 text-sm transition outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
           />
