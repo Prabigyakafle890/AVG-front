@@ -8,7 +8,6 @@ import type {
 const VETERINARIANS_URL = 'veterinarians/list/';
 const VETERINARIANS_EDIT_URL = 'veterinarians/update/{id}/';
 const VETERINARIANS_DETAIL_URL = 'veterinarians/detail/{id}/';
-const VETERINARINAS_DELETE_URL = 'veterinarians/delete/{id}';
 
 export const fetchVeterinarians = async (): Promise<VeterinariansResponse> => {
   const response =
