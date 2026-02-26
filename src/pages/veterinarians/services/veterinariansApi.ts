@@ -9,9 +9,19 @@ const VETERINARIANS_URL = 'veterinarians/list/';
 const VETERINARIANS_EDIT_URL = 'veterinarians/update/{id}/';
 const VETERINARIANS_DETAIL_URL = 'veterinarians/detail/{id}/';
 
-export const fetchVeterinarians = async (): Promise<VeterinariansResponse> => {
-  const response =
-    await axiosInstance.get<VeterinariansResponse>(VETERINARIANS_URL);
+export const fetchVeterinarians = async (
+  page: number = 1,
+  pageSize: number = 100
+): Promise<VeterinariansResponse> => {
+  const response = await axiosInstance.get<VeterinariansResponse>(
+    VETERINARIANS_URL,
+    {
+      params: {
+        page,
+        page_size: pageSize,
+      },
+    }
+  );
   return response.data;
 };
 

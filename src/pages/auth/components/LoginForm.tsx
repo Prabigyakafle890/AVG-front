@@ -1,5 +1,6 @@
 import { useAuth } from '@/pages/auth/hooks/useAuth';
 import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 export default function LoginForm() {
   const [username, setUsername] = useState('');
@@ -54,13 +55,14 @@ export default function LoginForm() {
           />
         </div>
 
-        <button
+        <Button
           type="submit"
+          size="lg"
           disabled={isPending}
-          className="mt-4 w-full rounded-lg bg-[#2da1db] py-3 text-lg font-bold text-white transition-all hover:bg-[#2589ba] active:scale-[0.99] disabled:opacity-50"
+          className="mt-4 w-full rounded-lg bg-[#2da1db] py-3 text-lg font-bold hover:bg-[#2589ba] active:scale-[0.99]"
         >
           {isPending ? 'Signing in...' : 'Sign In'}
-        </button>
+        </Button>
 
         <div className="mt-6 text-center">
           <a

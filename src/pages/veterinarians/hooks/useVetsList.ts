@@ -6,10 +6,10 @@ import {
 } from '../services/veterinariansApi';
 import type { VeterinarianDetail } from '../types';
 
-export const useVetsList = () => {
+export const useVetsList = (page: number = 1, pageSize: number = 100) => {
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['veterinarians', 'list'],
-    queryFn: fetchVeterinarians,
+    queryKey: ['veterinarians', 'list', page, pageSize],
+    queryFn: () => fetchVeterinarians(page, pageSize),
     staleTime: 5 * 60 * 1000,
   });
 
