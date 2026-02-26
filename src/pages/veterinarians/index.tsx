@@ -1,9 +1,20 @@
 import { AdminLayout } from '@/components';
 import { VeterinariansTable } from './components/veterinariansTable';
 import { useVetsList } from './hooks/useVetsList';
+import { useState } from 'react';
 
 export default function VeterinariansPage() {
-  const { data: vetsData, isLoading: isVetsLoading } = useVetsList();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const handlePageSizeChange = (newSize: number) => {
+    setPageSize(newSize);
+    setCurrentPage(1); // Reset to first page when changing page size
+  };
+  const { data: vetsData, isLoading: isVetsLoading } = useVetsList(
+    currentPage,
+    pageSize
+  );
 
   if (isVetsLoading) {
     return <p>Loading veterinarians...</p>;
@@ -20,7 +31,14 @@ export default function VeterinariansPage() {
           Manage and track outreach to veterinary professionals
         </p>
       </div>
-      <VeterinariansTable data={vetsData?.data.results || []} />
+      <VeterinariansTable
+        data={vetsData?.data.results || []}
+        currentPage={currentPage}
+        totalCount={vetsData?.data.count || 0}
+        pageSize={pageSize}
+        onPageChange={setCurrentPage}
+        onPageSizeChange={handlePageSizeChange}
+      />
     </AdminLayout>
   );
 }

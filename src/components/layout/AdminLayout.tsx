@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import clsx from 'clsx';
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Home, Building2, Menu } from 'lucide-react';
 
 export default function AdminLayout({
   children,
@@ -34,81 +36,54 @@ export default function AdminLayout({
           <div className="text-2xl font-bold tracking-tight">AVG Logo</div>
         </div>
         <nav className="flex-1 space-y-1 px-4">
-          <div className="flex items-center space-x-3 rounded-lg bg-[#1e4a5e] px-4 py-3">
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-              />
-            </svg>
-            <button
-              onClick={() => navigate('/dashboard')}
-              className={`text-sm font-medium ${isActive('/dashboard') ? 'text-white' : 'text-gray-300 hover:text-white'}`}
-            >
-              Dashboard
-            </button>
+          <div
+            className={clsx(
+              'flex cursor-pointer items-center space-x-3 rounded-lg px-4 py-3 transition-colors',
+              isActive('/dashboard')
+                ? 'bg-[#1e4a5e] text-white'
+                : 'text-gray-300 hover:bg-[#1e4a5e] hover:text-white'
+            )}
+            onClick={() => navigate('/dashboard')}
+          >
+            <Home className="h-5 w-5" />
+            <span className="text-sm font-medium">Dashboard</span>
           </div>
-          <div className="flex items-center space-x-3 rounded-lg px-4 py-3 text-gray-300 hover:bg-[#1e4a5e] hover:text-white">
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-              />
-            </svg>
-            <button
-              onClick={() => navigate('/veterinarians')}
-              className={`text-sm font-medium ${isActive('/veterinarians') ? 'text-white' : 'text-gray-300 hover:text-white'}`}
-            >
-              Veterinarians & Techs
-            </button>
+          <div
+            className={clsx(
+              'flex cursor-pointer items-center space-x-3 rounded-lg px-4 py-3 transition-colors',
+              isActive('/veterinarians')
+                ? 'bg-[#1e4a5e] text-white'
+                : 'text-gray-300 hover:bg-[#1e4a5e] hover:text-white'
+            )}
+            onClick={() => navigate('/veterinarians')}
+          >
+            <Building2 className="h-5 w-5" />
+            <span className="text-sm font-medium">Veterinarians & Techs</span>
           </div>
         </nav>
       </aside>
 
       <div className="flex flex-1 flex-col">
         <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6">
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={toggleSidebar}
-            className="rounded-lg p-2 transition-colors hover:bg-gray-100"
+            className="hover:bg-gray-100"
             title="Toggle Sidebar"
           >
-            <svg
-              className="h-5 w-5 text-gray-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </button>
+            <Menu className="h-5 w-5 text-gray-500" />
+          </Button>
 
           <div className="flex items-center space-x-4">
-            <button
+            <Button
+              variant="ghost"
               onClick={() => logout()}
               disabled={isPending}
               className="text-sm font-medium text-gray-600 hover:text-gray-900"
             >
               {isPending ? 'Logging out...' : 'Logout'}
-            </button>
+            </Button>
           </div>
         </header>
 

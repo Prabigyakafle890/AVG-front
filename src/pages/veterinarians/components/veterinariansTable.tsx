@@ -1,6 +1,7 @@
 import type { Veterinarian, ContactStatus } from '../types';
 import { formatDate } from '../utils/formatDate';
 import { EditVetForm } from './editVeterinarians';
+import { Pagination } from './Pagination';
 import { useState } from 'react';
 import { Pencil, Trash2 } from 'lucide-react';
 import {
@@ -11,9 +12,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
 
 interface Props {
   data: Veterinarian[];
+  currentPage: number;
+  totalCount: number;
+  pageSize: number;
+  onPageChange: (page: number) => void;
+  onPageSizeChange: (pageSize: number) => void;
 }
 
 const STATUS: Record<ContactStatus, { color: string; label: string }> = {
@@ -52,7 +59,14 @@ const HEADERS = [
   'Action',
 ];
 
-export function VeterinariansTable({ data }: Props) {
+export function VeterinariansTable({
+  data,
+  currentPage,
+  totalCount,
+  pageSize,
+  onPageChange,
+  onPageSizeChange,
+}: Props) {
   const [editingVetId, setEditingVetId] = useState<number | null>(null);
 
   return (
@@ -127,23 +141,24 @@ export function VeterinariansTable({ data }: Props) {
                 </TableCell>
 
                 <TableCell>
-                  <div className="flex items-center gap-3">
-                    <button
-                      type="button"
+                  <div className="flex items-center gap-1.5">
+                    <Button
+                      variant="ghost"
+                      size="icon"
                       onClick={() => setEditingVetId(vet.id)}
                       aria-label="Edit veterinarian"
-                      className="text-blue-600 transition-colors hover:text-blue-800"
                     >
-                      <Pencil className="h-4 w-4" />
-                    </button>
+                      <Pencil />
+                    </Button>
 
-                    <button
-                      type="button"
+                    <Button
+                      variant="ghost"
+                      size="icon"
                       aria-label="Delete veterinarian"
-                      className="text-red-600 transition-colors hover:text-red-800"
+                      className="text-red-600 hover:bg-red-50 hover:text-red-700"
                     >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+                      <Trash2 />
+                    </Button>
                   </div>
                 </TableCell>
               </TableRow>
@@ -152,9 +167,13 @@ export function VeterinariansTable({ data }: Props) {
         </Table>
 
         {data.length > 0 ? (
-          <div className="border-t border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-600">
-            Showing {data.length} record{data.length !== 1 ? 's' : ''}
-          </div>
+          <Pagination
+            currentPage={currentPage}
+            totalCount={totalCount}
+            pageSize={pageSize}
+            onPageChange={onPageChange}
+            onPageSizeChange={onPageSizeChange}
+          />
         ) : (
           <div className="py-8 text-center text-gray-500">
             No veterinarians found

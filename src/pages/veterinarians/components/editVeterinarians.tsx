@@ -5,6 +5,7 @@ import {
 } from '../hooks/useVetsList';
 import type { VeterinarianDetail } from '../types';
 import { formatDate } from '../utils/formatDate';
+import { Button } from '@/components/ui/button';
 
 type Props = {
   vetId: number;
@@ -263,18 +264,10 @@ export const EditVetForm = ({ vetId, onClose }: Props) => {
       </div>
 
       <div className="mt-4 flex items-center justify-end gap-2 border-t border-gray-100 pt-3">
-        <button
-          type="button"
-          onClick={onClose}
-          className="rounded-md bg-gray-50 px-4 py-1.5 text-xs font-medium text-gray-600 transition hover:bg-gray-100 hover:text-gray-800"
-        >
+        <Button type="button" variant="outline" size="sm" onClick={onClose}>
           Cancel
-        </button>
-        <button
-          type="submit"
-          disabled={isSaving}
-          className="rounded-md bg-blue-600 px-4 py-1.5 text-xs font-medium text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
-        >
+        </Button>
+        <Button type="submit" size="sm" disabled={isSaving}>
           {isSaving ? (
             <span className="flex items-center gap-1">
               <svg className="h-3 w-3 animate-spin" viewBox="0 0 24 24">
@@ -298,7 +291,7 @@ export const EditVetForm = ({ vetId, onClose }: Props) => {
           ) : (
             'Save'
           )}
-        </button>
+        </Button>
       </div>
     </form>
   );
