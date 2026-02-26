@@ -1,5 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
-import { fetchVeterinarians } from '../services/veterinariansApi';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  fetchVeterinarians,
+  detailVeterinarians,
+  editVeterinarians,
+} from '../services/veterinariansApi';
+import type { VeterinarianDetail } from '../types';
 
 export const useVetsList = () => {
   const { data, isLoading, refetch } = useQuery({
@@ -13,4 +18,38 @@ export const useVetsList = () => {
     isLoading,
     refetch,
   };
+};
+
+export const useDetailVeterinarians = (id: number) => {
+  const { data, isLoading } = useQuery({
+    queryKey: ['veterinarians', 'detail', id],
+    queryFn: ({ queryKey }) => {
+      const [, , id] = queryKey;
+      return detailVeterinarians(id as number);
+    },
+  });
+  return {
+    data,
+    isLoading,
+  };
+};
+
+export const useEditVeterinarians = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: number;
+      payload: Partial<VeterinarianDetail>;
+    }) => editVeterinarians(id, payload),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['veterinarians', 'list'] });
+      queryClient.invalidateQueries({
+        queryKey: ['veterinarians', 'detail', variables.id],
+      });
+    },
+  });
 };

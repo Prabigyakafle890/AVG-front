@@ -33,6 +33,15 @@ export interface Veterinarian {
   notes: string | null;
 }
 
+export interface VeterinarianDetail extends Veterinarian {
+  firstName: string;
+  lastName: string;
+  zipCode: string;
+  status: Status;
+}
+
+export type Status = 'ACTIVE' | 'INACTIVE';
+
 export type ContactStatus =
   | 'NOT_CONTACTED'
   | 'INTERVIEW_SCHEDULED'
@@ -42,3 +51,5 @@ export type ContactStatus =
 export type VeterinariansResponse = ApiResponse<
   PaginatedResponse<Veterinarian>
 >;
+
+export type VeterinarianDetailResponse = ApiResponse<VeterinarianDetail>;
