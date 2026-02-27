@@ -3,9 +3,8 @@ import {
   fetchVeterinarians,
   detailVeterinarians,
   editVeterinarians,
-  type VetListFilters,
 } from '../services/veterinariansApi';
-import type { VeterinarianDetail } from '../types';
+import type { VeterinarianDetail, VetListFilters } from '../types';
 
 export const useVetsList = (
   page: number = 1,

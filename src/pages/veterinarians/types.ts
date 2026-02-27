@@ -66,6 +66,13 @@ export interface VeterinarianDetail {
   zipCode: string;
 }
 
+export interface VetListFilters {
+  state?: string;
+  contactStatus?: string;
+  profession?: string;
+  search?: string;
+}
+
 export type VeterinariansResponse = ApiResponse<
   PaginatedResponse<Veterinarian>
 >;

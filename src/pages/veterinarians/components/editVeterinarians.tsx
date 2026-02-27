@@ -36,7 +36,6 @@ export const EditVetForm = ({ vetId, onClose }: Props) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Sending payload:', formData);
     updateVet(
       { id: vetId, payload: formData },
       {
@@ -193,7 +192,7 @@ export const EditVetForm = ({ vetId, onClose }: Props) => {
             Issue Date
           </label>
           <input
-            type="string"
+            type="text"
             name="issueDate"
             value={issueDate}
             onChange={handleChange}
@@ -206,7 +205,7 @@ export const EditVetForm = ({ vetId, onClose }: Props) => {
             Expiration
           </label>
           <input
-            type="string"
+            type="text"
             name="expirationDate"
             value={expDate}
             onChange={handleChange}

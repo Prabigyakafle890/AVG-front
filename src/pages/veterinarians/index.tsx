@@ -95,7 +95,7 @@ export default function VeterinariansPage() {
           </p>
         </div>
 
-        <FilterBar onFilter={handleFilter} />
+        <FilterBar filters={filters} onFilter={handleFilter} />
 
         {selectedRecords.size > 0 && (
           <BulkActionsBar

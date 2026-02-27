@@ -3,18 +3,12 @@ import type {
   VeterinariansResponse,
   VeterinarianDetailResponse,
   VeterinarianDetail,
+  VetListFilters,
 } from '../types';
 
 const VETERINARIANS_URL = 'veterinarians/list/';
 const VETERINARIANS_EDIT_URL = 'veterinarians/update/{id}/';
 const VETERINARIANS_DETAIL_URL = 'veterinarians/detail/{id}/';
-
-export interface VetListFilters {
-  state?: string;
-  contactStatus?: string;
-  profession?: string;
-  search?: string;
-}
 
 export const fetchVeterinarians = async (
   page: number = 1,

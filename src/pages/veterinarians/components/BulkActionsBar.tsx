@@ -8,17 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ChevronDown, X, MessageSquare } from 'lucide-react';
 import type { ContactStatus } from '../types';
-
-const CONTACT_STATUSES: { value: ContactStatus; label: string }[] = [
-  { value: 'NOT_CONTACTED', label: 'Not Contacted' },
-  { value: 'IN_QUEUE', label: 'In Queue' },
-  { value: 'CONTACTED', label: 'Contacted' },
-  { value: 'FOLLOW_UP_NEEDED', label: 'Follow Up Needed' },
-  { value: 'INTERVIEW_SCHEDULED', label: 'Interview Scheduled' },
-  { value: 'INTERVIEW_COMPLETED', label: 'Interview Completed' },
-  { value: 'HIRED', label: 'Hired' },
-  { value: 'NOT_INTERESTED', label: 'Not Interested' },
-];
+import { CONTACT_STATUSES } from './FilterBar';
 
 interface BulkActionsBarProps {
   selectedCount: number;
