@@ -33,12 +33,14 @@ export default function Dashboard() {
             value={
               overviewData?.data.totalVeterinarians.toLocaleString() ?? '0'
             }
+            color="text-blue-700"
           />
           <StatCard
             title="Vet Techs"
             value={
               overviewData?.data.totalVetTechnicians.toLocaleString() ?? '0'
             }
+            color="text-red-700"
           />
         </div>
         <div className="space-y-6">

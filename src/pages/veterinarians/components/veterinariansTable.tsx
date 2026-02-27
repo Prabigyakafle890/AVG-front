@@ -177,7 +177,7 @@ export function VeterinariansTable({
                     <Badge
                       variant="secondary"
                       style={
-                        vet.licenseProfession === 'Veterinarian'
+                        vet.licenseProfession === 'VMD'
                           ? { backgroundColor: '#e0f2fe', color: '#0369a1' }
                           : { backgroundColor: '#fee2e2', color: '#991b1b' }
                       }

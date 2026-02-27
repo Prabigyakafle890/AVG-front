@@ -15,11 +15,11 @@ export function StateCard({ state, total, vets, techs }: StateCardProps) {
       <div className="flex flex-col gap-2">
         <div className="flex justify-between text-sm">
           <span className="text-gray-500">Veterinarians:</span>
-          <span className="font-semibold text-gray-900">{vets}</span>
+          <span className="font-semibold text-blue-700">{vets}</span>
         </div>
         <div className="flex justify-between text-sm">
           <span className="text-gray-500">Vet Techs:</span>
-          <span className="font-semibold text-gray-900">{techs}</span>
+          <span className="font-semibold text-red-700">{techs}</span>
         </div>
       </div>
     </div>
