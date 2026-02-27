@@ -1,10 +1,13 @@
 import { AdminLayout } from '@/components';
-import { VeterinariansTable } from './components/veterinariansTable';
-import { FilterBar, type FilterValues } from './components/FilterBar';
-import { SourceStateFilter } from './components/SourceStateFilter';
-import { NotesDrawer } from './components/NotesDrawer';
-import { BulkActionsBar } from './components/BulkActionsBar';
-import { BulkNotesDialog } from './components/BulkNotesDialog';
+import {
+  VeterinariansTable,
+  FilterBar,
+  SourceStateFilter,
+  NotesDrawer,
+  BulkActionsBar,
+  BulkNotesDialog,
+  type FilterValues,
+} from './components';
 import { useVetsList } from './hooks/useVetsList';
 import { useState } from 'react';
 import type { Veterinarian, ContactStatus } from './types';

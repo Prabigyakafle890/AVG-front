@@ -50,7 +50,10 @@ export const useEditVeterinarians = () => {
       payload: Partial<VetEditPayload>;
     }) => editVeterinarians(id, payload),
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['veterinarians', 'list'] });
+      queryClient.invalidateQueries({
+        queryKey: ['veterinarians', 'list'],
+      });
+
       queryClient.invalidateQueries({
         queryKey: ['veterinarians', 'detail', variables.id],
       });

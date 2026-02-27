@@ -5,9 +5,6 @@ import { DashboardSkeleton, StatCard, StateCard } from './components';
 export default function Dashboard() {
   const { overviewData, breakdownData, isLoading } = useDashboard();
 
-  console.log('overviewData', overviewData);
-  console.log('breakdown', breakdownData);
-
   if (isLoading) {
     return (
       <AdminLayout>
