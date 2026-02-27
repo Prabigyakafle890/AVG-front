@@ -24,6 +24,7 @@ export default function Dashboard() {
           <StatCard
             title="Total Candidates"
             value={overviewData?.data.totalCandidates.toLocaleString() ?? '0'}
+            accentColor="#1e293b"
           />
           <StatCard
             title="Veterinarians"
@@ -31,6 +32,7 @@ export default function Dashboard() {
               overviewData?.data.totalVeterinarians.toLocaleString() ?? '0'
             }
             color="text-blue-700"
+            accentColor="#7dd3fc"
           />
           <StatCard
             title="Vet Techs"
@@ -38,6 +40,7 @@ export default function Dashboard() {
               overviewData?.data.totalVetTechnicians.toLocaleString() ?? '0'
             }
             color="text-red-700"
+            accentColor="#ef4444"
           />
         </div>
         <div className="space-y-6">
