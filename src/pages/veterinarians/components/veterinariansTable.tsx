@@ -3,7 +3,7 @@ import { formatDate } from '../utils/formatDate';
 import { EditVetForm } from './editVeterinarians';
 import { Pagination } from './Pagination';
 import { useState } from 'react';
-import { Pencil, Trash2, MessageSquare } from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -52,23 +52,23 @@ const HEADERS = [
 ];
 
 const STATUS_CONFIG: Record<ContactStatus, { color: string; label: string }> = {
-  NOT_CONTACTED: { color: 'bg-gray-100 text-gray-800', label: 'Not Contacted' },
-  CONTACTED: { color: 'bg-emerald-100 text-emerald-800', label: 'Contacted' },
+  NOT_CONTACTED: { color: 'bg-gray-100 text-gray-700', label: 'Not Contacted' },
+  CONTACTED: { color: 'bg-emerald-100 text-emerald-700', label: 'Contacted' },
   FOLLOW_UP_NEEDED: {
-    color: 'bg-orange-100 text-orange-800',
-    label: 'Follow Up Needed',
+    color: 'bg-orange-100 text-orange-700',
+    label: 'Follow-up Needed',
   },
   INTERVIEW_SCHEDULED: {
-    color: 'bg-blue-100 text-blue-800',
+    color: 'bg-blue-100 text-blue-700',
     label: 'Interview Scheduled',
   },
   INTERVIEW_COMPLETED: {
-    color: 'bg-indigo-100 text-indigo-800',
+    color: 'bg-indigo-100 text-indigo-700',
     label: 'Interview Completed',
   },
-  HIRED: { color: 'bg-green-100 text-green-800', label: 'Hired' },
-  NOT_INTERESTED: { color: 'bg-red-100 text-red-800', label: 'Not Interested' },
-  IN_QUEUE: { color: 'bg-yellow-100 text-yellow-800', label: 'In Queue' },
+  HIRED: { color: 'bg-green-100 text-green-700', label: 'Hired' },
+  NOT_INTERESTED: { color: 'bg-red-100 text-red-700', label: 'Not Interested' },
+  IN_QUEUE: { color: 'bg-yellow-100 text-yellow-700', label: 'In Queue' },
 };
 
 export function VeterinariansTable({
@@ -200,12 +200,8 @@ export function VeterinariansTable({
 
                   <TableCell>
                     <Badge
-                      variant="outline"
-                      className="text-xs"
-                      style={{
-                        borderColor: '#2095d2',
-                        color: '#2095d2',
-                      }}
+                      variant="secondary"
+                      className={`text-xs ${STATUS_CONFIG[vet.contactStatus]?.color ?? 'bg-gray-100 text-gray-700'}`}
                     >
                       {STATUS_CONFIG[vet.contactStatus]?.label ??
                         vet.contactStatus}
@@ -214,9 +210,9 @@ export function VeterinariansTable({
 
                   <TableCell>
                     {vet.assignedTo ? (
-                      <Badge variant="secondary" className="text-xs">
+                      <span className="text-sm text-gray-700">
                         {vet.assignedTo.fullName.split(' ')[0]}
-                      </Badge>
+                      </span>
                     ) : (
                       <span className="text-xs text-gray-400 italic">
                         Unassigned
@@ -249,17 +245,12 @@ export function VeterinariansTable({
                             variant="ghost"
                             size="sm"
                             onClick={() => onOpenNotes(vet)}
-                            className="gap-2"
+                            className="gap-1.5"
                           >
-                            <MessageSquare className="h-4 w-4" />
                             {vet.notes ? (
                               <Badge
                                 variant="secondary"
-                                className="text-xs"
-                                style={{
-                                  backgroundColor: '#2095d2',
-                                  color: 'white',
-                                }}
+                                className="bg-blue-100 px-2 text-xs text-blue-700"
                               >
                                 1
                               </Badge>
@@ -285,7 +276,7 @@ export function VeterinariansTable({
                         onClick={() => setEditingVetId(vet.id)}
                         aria-label="Edit veterinarian"
                       >
-                        <Pencil />
+                        <Pencil className="h-4 w-4" />
                       </Button>
 
                       <Button
@@ -294,7 +285,7 @@ export function VeterinariansTable({
                         aria-label="Delete veterinarian"
                         className="text-red-600 hover:bg-red-50 hover:text-red-700"
                       >
-                        <Trash2 />
+                        <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
                   </TableCell>

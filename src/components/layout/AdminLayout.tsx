@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Home, Building2, Menu } from 'lucide-react';
+import { Home, Building2, Menu, LogOut } from 'lucide-react';
 
 export default function AdminLayout({
   children,
@@ -82,6 +82,7 @@ export default function AdminLayout({
               disabled={isPending}
               className="text-sm font-medium text-gray-600 hover:text-gray-900"
             >
+              <LogOut className="h-4 w-4" />
               {isPending ? 'Logging out...' : 'Logout'}
             </Button>
           </div>

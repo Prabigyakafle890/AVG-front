@@ -8,8 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { Search, X, Filter } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import type { ContactStatus } from '../types';
 
 export const CONTACT_STATUSES: { value: ContactStatus; label: string }[] = [
@@ -108,7 +107,7 @@ export function FilterBar({ filters, onFilter }: FilterBarProps) {
       if (searchInput !== filters.search) {
         onFilter({ ...filters, search: searchInput });
       }
-    }, 600);
+    }, 400);
 
     return () => clearTimeout(timer);
   }, [searchInput]);
@@ -123,25 +122,37 @@ export function FilterBar({ filters, onFilter }: FilterBarProps) {
     });
   };
 
-  const activeFilterCount = [
-    filters.search !== '',
-    filters.contactStatus !== 'all',
-    filters.profession !== 'all',
-    filters.state !== 'all',
-  ].filter(Boolean).length;
-
-  const activeSelectClass = 'border-blue-400 bg-blue-50 ring-1 ring-blue-200';
+  const hasActiveFilters =
+    filters.search !== '' ||
+    filters.contactStatus !== 'all' ||
+    filters.profession !== 'all' ||
+    filters.state !== 'all';
 
   return (
-    <div className="space-y-3">
+    <div className="rounded-lg border border-gray-200 bg-white px-5 py-4">
+      <div className="mb-3 flex items-center justify-between">
+        <span className="text-sm font-semibold text-gray-800">Filters</span>
+        {hasActiveFilters && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleClearFilters}
+            className="h-7 gap-1 text-xs text-gray-500 hover:text-gray-700"
+          >
+            <X className="h-3.5 w-3.5" />
+            Clear all
+          </Button>
+        )}
+      </div>
+
       <div className="flex flex-wrap items-center gap-3">
-        <div className="relative max-w-sm min-w-70 flex-1">
+        <div className="relative min-w-60 flex-1">
           <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
           <Input
-            placeholder="Search by name, email, phone, license..."
+            placeholder="Search"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
-            className={`pl-9 ${filters.search ? 'border-blue-400 ring-1 ring-blue-200' : ''}`}
+            className="pl-9"
           />
           {searchInput && (
             <button
@@ -158,16 +169,33 @@ export function FilterBar({ filters, onFilter }: FilterBarProps) {
         </div>
 
         <Select
+          value={filters.profession}
+          onValueChange={(value) => onFilter({ ...filters, profession: value })}
+        >
+          <SelectTrigger className="w-44">
+            <span className="text-sm text-gray-500">Profession</span>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All professions</SelectItem>
+            {PROFESSIONS.map((p) => (
+              <SelectItem key={p} value={p}>
+                {p}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select
           value={filters.state}
           onValueChange={(value) => onFilter({ ...filters, state: value })}
         >
-          <SelectTrigger
-            className={`w-37.5 ${filters.state !== 'all' ? activeSelectClass : ''}`}
-          >
-            <SelectValue placeholder="State" />
+          <SelectTrigger className="w-40">
+            <span className="text-sm text-gray-500">States</span>
+            <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All States</SelectItem>
+            <SelectItem value="all">All states</SelectItem>
             {US_STATES.map((s) => (
               <SelectItem key={s} value={s}>
                 {s}
@@ -182,13 +210,12 @@ export function FilterBar({ filters, onFilter }: FilterBarProps) {
             onFilter({ ...filters, contactStatus: value })
           }
         >
-          <SelectTrigger
-            className={`w-50 ${filters.contactStatus !== 'all' ? activeSelectClass : ''}`}
-          >
-            <SelectValue placeholder="Contact Status" />
+          <SelectTrigger className="w-44">
+            <span className="text-sm text-gray-500">Status</span>
+            <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Statuses</SelectItem>
+            <SelectItem value="all">All statuses</SelectItem>
             {CONTACT_STATUSES.map((status) => (
               <SelectItem key={status.value} value={status.value}>
                 {status.label}
@@ -196,116 +223,7 @@ export function FilterBar({ filters, onFilter }: FilterBarProps) {
             ))}
           </SelectContent>
         </Select>
-
-        <Select
-          value={filters.profession}
-          onValueChange={(value) => onFilter({ ...filters, profession: value })}
-        >
-          <SelectTrigger
-            className={`w-42.5 ${filters.profession !== 'all' ? activeSelectClass : ''}`}
-          >
-            <SelectValue placeholder="Profession" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Professions</SelectItem>
-            {PROFESSIONS.map((p) => (
-              <SelectItem key={p} value={p}>
-                {p}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        {activeFilterCount > 0 && (
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleClearFilters}
-            className="gap-1.5 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
-          >
-            <X className="h-4 w-4" />
-            Clear All
-            <Badge
-              variant="secondary"
-              className="ml-0.5 bg-red-100 px-1.5 text-xs text-red-700"
-            >
-              {activeFilterCount}
-            </Badge>
-          </Button>
-        )}
       </div>
-
-      {activeFilterCount > 0 && (
-        <div className="flex flex-wrap items-center gap-2">
-          <Filter className="h-3.5 w-3.5 text-gray-400" />
-          <span className="text-xs text-gray-500">Active filters:</span>
-          {filters.search && (
-            <Badge
-              variant="secondary"
-              className="gap-1 bg-blue-50 text-blue-700"
-            >
-              Search: "{filters.search}"
-              <button
-                type="button"
-                onClick={() => {
-                  setSearchInput('');
-                  onFilter({ ...filters, search: '' });
-                }}
-                className="ml-0.5 hover:text-blue-900"
-              >
-                <X className="h-3 w-3" />
-              </button>
-            </Badge>
-          )}
-          {filters.state !== 'all' && (
-            <Badge
-              variant="secondary"
-              className="gap-1 bg-blue-50 text-blue-700"
-            >
-              State: {filters.state}
-              <button
-                type="button"
-                onClick={() => onFilter({ ...filters, state: 'all' })}
-                className="ml-0.5 hover:text-blue-900"
-              >
-                <X className="h-3 w-3" />
-              </button>
-            </Badge>
-          )}
-          {filters.contactStatus !== 'all' && (
-            <Badge
-              variant="secondary"
-              className="gap-1 bg-blue-50 text-blue-700"
-            >
-              Status:{' '}
-              {CONTACT_STATUSES.find((s) => s.value === filters.contactStatus)
-                ?.label ?? filters.contactStatus}
-              <button
-                type="button"
-                onClick={() => onFilter({ ...filters, contactStatus: 'all' })}
-                className="ml-0.5 hover:text-blue-900"
-              >
-                <X className="h-3 w-3" />
-              </button>
-            </Badge>
-          )}
-          {filters.profession !== 'all' && (
-            <Badge
-              variant="secondary"
-              className="gap-1 bg-blue-50 text-blue-700"
-            >
-              Profession: {filters.profession}
-              <button
-                type="button"
-                onClick={() => onFilter({ ...filters, profession: 'all' })}
-                className="ml-0.5 hover:text-blue-900"
-              >
-                <X className="h-3 w-3" />
-              </button>
-            </Badge>
-          )}
-        </div>
-      )}
     </div>
   );
 }

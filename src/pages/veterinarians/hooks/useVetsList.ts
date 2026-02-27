@@ -4,7 +4,7 @@ import {
   detailVeterinarians,
   editVeterinarians,
 } from '../services/veterinariansApi';
-import type { VeterinarianDetail, VetListFilters } from '../types';
+import type { VetListFilters, VetEditPayload } from '../types';
 
 export const useVetsList = (
   page: number = 1,
@@ -47,7 +47,7 @@ export const useEditVeterinarians = () => {
       payload,
     }: {
       id: number;
-      payload: Partial<VeterinarianDetail>;
+      payload: Partial<VetEditPayload>;
     }) => editVeterinarians(id, payload),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['veterinarians', 'list'] });

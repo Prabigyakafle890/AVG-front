@@ -2,7 +2,7 @@ import axiosInstance from '@/api/axiosInstance';
 import type {
   VeterinariansResponse,
   VeterinarianDetailResponse,
-  VeterinarianDetail,
+  VetEditPayload,
   VetListFilters,
 } from '../types';
 
@@ -51,7 +51,7 @@ export const detailVeterinarians = async (
 
 export const editVeterinarians = async (
   id: number,
-  payload: Partial<VeterinarianDetail>
+  payload: Partial<VetEditPayload>
 ) => {
   const result = await axiosInstance.patch(
     VETERINARIANS_EDIT_URL.replace('{id}', id.toString()),

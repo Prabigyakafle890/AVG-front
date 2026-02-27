@@ -78,3 +78,8 @@ export type VeterinariansResponse = ApiResponse<
 >;
 
 export type VeterinarianDetailResponse = ApiResponse<VeterinarianDetail>;
+
+export type VetEditPayload = Omit<
+  VeterinarianDetail,
+  'id' | 'assignedTo' | 'addedBy'
+>;

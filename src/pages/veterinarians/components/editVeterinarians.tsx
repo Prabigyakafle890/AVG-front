@@ -3,8 +3,7 @@ import {
   useDetailVeterinarians,
   useEditVeterinarians,
 } from '../hooks/useVetsList';
-import type { VeterinarianDetail } from '../types';
-import { formatDate } from '../utils/formatDate';
+import type { VetEditPayload } from '../types';
 import { Button } from '@/components/ui/button';
 
 type Props = {
@@ -16,15 +15,13 @@ export const EditVetForm = ({ vetId, onClose }: Props) => {
   const { data, isLoading } = useDetailVeterinarians(vetId);
   const { mutate: updateVet, isPending: isSaving } = useEditVeterinarians();
 
-  const [formData, setFormData] = useState<Partial<VeterinarianDetail>>({});
-
-  const expDate = formatDate(
-    formData.expirationDate ? formData.expirationDate : '_'
-  );
-  const issueDate = formatDate(formData.issueDate ? formData.issueDate : '_');
+  const [formData, setFormData] = useState<Partial<VetEditPayload>>({});
 
   useEffect(() => {
-    if (data?.data) setFormData(data.data);
+    if (data?.data) {
+      const { id, assignedTo, addedBy, ...editable } = data.data;
+      setFormData(editable);
+    }
   }, [data]);
 
   const handleChange = (
@@ -36,6 +33,7 @@ export const EditVetForm = ({ vetId, onClose }: Props) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     updateVet(
       { id: vetId, payload: formData },
       {
@@ -62,7 +60,7 @@ export const EditVetForm = ({ vetId, onClose }: Props) => {
           Edit Veterinarian
         </h2>
         <span className="rounded-full bg-blue-50 px-2 py-1 text-xs font-medium text-blue-600">
-          ID: {formData.id}
+          ID: {vetId}
         </span>
       </div>
 
@@ -192,9 +190,9 @@ export const EditVetForm = ({ vetId, onClose }: Props) => {
             Issue Date
           </label>
           <input
-            type="text"
+            type="date"
             name="issueDate"
-            value={issueDate}
+            value={formData.issueDate?.split('T')[0] ?? ''}
             onChange={handleChange}
             className="w-full rounded-md border border-gray-200 p-2 text-sm transition outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
           />
@@ -205,9 +203,9 @@ export const EditVetForm = ({ vetId, onClose }: Props) => {
             Expiration
           </label>
           <input
-            type="text"
+            type="date"
             name="expirationDate"
-            value={expDate}
+            value={formData.expirationDate?.split('T')[0] ?? ''}
             onChange={handleChange}
             className="w-full rounded-md border border-gray-200 p-2 text-sm transition outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
           />
@@ -243,9 +241,9 @@ export const EditVetForm = ({ vetId, onClose }: Props) => {
           </label>
           <input
             name="assignedTo"
-            value={formData.assignedTo?.fullName ?? ''}
-            onChange={handleChange}
-            className="w-full rounded-md border border-gray-200 p-2 text-sm transition outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
+            value={data?.data?.assignedTo?.fullName ?? ''}
+            readOnly
+            className="w-full rounded-md border border-gray-200 bg-gray-50 p-2 text-sm text-gray-500 transition outline-none"
           />
         </div>
 

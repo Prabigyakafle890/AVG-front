@@ -1,6 +1,7 @@
 import { AdminLayout } from '@/components';
 import { VeterinariansTable } from './components/veterinariansTable';
 import { FilterBar, type FilterValues } from './components/FilterBar';
+import { SourceStateFilter } from './components/SourceStateFilter';
 import { NotesDrawer } from './components/NotesDrawer';
 import { BulkActionsBar } from './components/BulkActionsBar';
 import { BulkNotesDialog } from './components/BulkNotesDialog';
@@ -23,6 +24,7 @@ export default function VeterinariansPage() {
     profession: 'all',
     state: 'all',
   });
+  const [sourceState, setSourceState] = useState('all');
 
   const handlePageSizeChange = (newSize: number) => {
     setPageSize(newSize);
@@ -33,7 +35,7 @@ export default function VeterinariansPage() {
     currentPage,
     pageSize,
     {
-      state: filters.state,
+      state: sourceState !== 'all' ? sourceState : filters.state,
       contactStatus: filters.contactStatus,
       profession: filters.profession,
       search: filters.search,
@@ -42,6 +44,14 @@ export default function VeterinariansPage() {
 
   const handleFilter = (newFilters: FilterValues) => {
     setFilters(newFilters);
+    setCurrentPage(1);
+  };
+
+  const handleSourceStateChange = (state: string) => {
+    setSourceState(state);
+    if (state !== 'all') {
+      setFilters((prev) => ({ ...prev, state: 'all' }));
+    }
     setCurrentPage(1);
   };
 
@@ -82,7 +92,7 @@ export default function VeterinariansPage() {
 
   return (
     <AdminLayout>
-      <div className="space-y-5">
+      <div className="space-y-4">
         <div>
           <h1
             className="mb-1 text-3xl font-bold tracking-tight"
@@ -94,6 +104,11 @@ export default function VeterinariansPage() {
             Manage and track outreach to veterinary professionals
           </p>
         </div>
+
+        <SourceStateFilter
+          value={sourceState}
+          onChange={handleSourceStateChange}
+        />
 
         <FilterBar filters={filters} onFilter={handleFilter} />
 
