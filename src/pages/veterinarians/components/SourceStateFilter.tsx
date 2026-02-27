@@ -6,6 +6,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { US_STATES } from './FilterBar';
+import { Database } from 'lucide-react';
 
 interface SourceStateFilterProps {
   value: string;
@@ -16,6 +17,7 @@ export function SourceStateFilter({ value, onChange }: SourceStateFilterProps) {
   return (
     <div className="rounded-lg border border-gray-200 bg-white px-5 py-4">
       <div className="flex items-center gap-4">
+        <Database className="h-5 w-5 shrink-0 text-[#E84545]" />
         <div className="flex flex-col gap-0.5">
           <span className="text-sm font-semibold text-gray-800">
             Data Source State

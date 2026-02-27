@@ -25,23 +25,23 @@ export default function AdminLayout({
   };
 
   return (
-    <section className="flex min-h-screen bg-white font-sans">
+    <section className="flex min-h-screen font-sans">
       <aside
         className={clsx(
-          'flex shrink-0 flex-col bg-[#0a2e3f] text-white transition-all duration-300 ease-in-out',
+          'flex shrink-0 flex-col bg-[#903749] transition-all duration-300 ease-in-out',
           isSidebarOpen ? 'w-64' : 'w-0 overflow-hidden'
         )}
       >
         <div className="p-6">
-          <div className="text-2xl font-bold tracking-tight">AVG Logo</div>
+          <img src="/images/logo.png" alt="AVG Logo" className="h-10 w-auto" />
         </div>
         <nav className="flex-1 space-y-1 px-4">
           <div
             className={clsx(
               'flex cursor-pointer items-center space-x-3 rounded-lg px-4 py-3 transition-colors',
               isActive('/dashboard')
-                ? 'bg-[#1e4a5e] text-white'
-                : 'text-gray-300 hover:bg-[#1e4a5e] hover:text-white'
+                ? 'bg-[#E84545] font-semibold text-white'
+                : 'text-white/70 hover:bg-[#53354A] hover:text-white'
             )}
             onClick={() => navigate('/dashboard')}
           >
@@ -52,8 +52,8 @@ export default function AdminLayout({
             className={clsx(
               'flex cursor-pointer items-center space-x-3 rounded-lg px-4 py-3 transition-colors',
               isActive('/veterinarians')
-                ? 'bg-[#1e4a5e] text-white'
-                : 'text-gray-300 hover:bg-[#1e4a5e] hover:text-white'
+                ? 'bg-[#E84545] font-semibold text-white'
+                : 'text-white/70 hover:bg-[#53354A] hover:text-white'
             )}
             onClick={() => navigate('/veterinarians')}
           >
@@ -88,7 +88,7 @@ export default function AdminLayout({
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto bg-gray-50/50 p-6">
+        <main className="flex-1 overflow-auto bg-[#F4F4F4] p-6">
           <div className="w-full">{children}</div>
         </main>
       </div>

@@ -145,8 +145,8 @@ export function FilterBar({ filters, onFilter }: FilterBarProps) {
         )}
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="relative min-w-60 flex-1">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
+        <div className="min-full relative">
           <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
           <Input
             placeholder="Search"
@@ -172,7 +172,7 @@ export function FilterBar({ filters, onFilter }: FilterBarProps) {
           value={filters.profession}
           onValueChange={(value) => onFilter({ ...filters, profession: value })}
         >
-          <SelectTrigger className="w-44">
+          <SelectTrigger>
             <span className="text-sm text-gray-500">Profession</span>
             <SelectValue />
           </SelectTrigger>
@@ -190,7 +190,7 @@ export function FilterBar({ filters, onFilter }: FilterBarProps) {
           value={filters.state}
           onValueChange={(value) => onFilter({ ...filters, state: value })}
         >
-          <SelectTrigger className="w-40">
+          <SelectTrigger>
             <span className="text-sm text-gray-500">States</span>
             <SelectValue />
           </SelectTrigger>
@@ -210,7 +210,7 @@ export function FilterBar({ filters, onFilter }: FilterBarProps) {
             onFilter({ ...filters, contactStatus: value })
           }
         >
-          <SelectTrigger className="w-44">
+          <SelectTrigger>
             <span className="text-sm text-gray-500">Status</span>
             <SelectValue />
           </SelectTrigger>
