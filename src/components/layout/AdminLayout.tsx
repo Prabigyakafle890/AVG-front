@@ -28,7 +28,7 @@ export default function AdminLayout({
     <section className="flex min-h-screen bg-white font-sans">
       <aside
         className={clsx(
-          'flex flex-col bg-[#0a2e3f] text-white transition-all duration-300 ease-in-out',
+          'flex shrink-0 flex-col bg-[#0a2e3f] text-white transition-all duration-300 ease-in-out',
           isSidebarOpen ? 'w-64' : 'w-0 overflow-hidden'
         )}
       >
@@ -63,7 +63,7 @@ export default function AdminLayout({
         </nav>
       </aside>
 
-      <div className="flex flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6">
           <Button
             variant="ghost"
@@ -87,8 +87,8 @@ export default function AdminLayout({
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto bg-white p-6">
-          <div className="mx-auto max-w-7xl">{children}</div>
+        <main className="flex-1 overflow-auto bg-gray-50/50 p-6">
+          <div className="w-full">{children}</div>
         </main>
       </div>
     </section>

@@ -3,7 +3,7 @@ import { formatDate } from '../utils/formatDate';
 import { EditVetForm } from './editVeterinarians';
 import { Pagination } from './Pagination';
 import { useState } from 'react';
-import { Pencil, Trash2 } from 'lucide-react';
+import { Pencil, Trash2, MessageSquare } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -13,6 +13,14 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Badge } from '@/components/ui/badge';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 interface Props {
   data: Veterinarian[];
@@ -21,9 +29,29 @@ interface Props {
   pageSize: number;
   onPageChange: (page: number) => void;
   onPageSizeChange: (pageSize: number) => void;
+  selectedRecords: Set<number>;
+  onSelectionChange: (selected: Set<number>) => void;
+  onOpenNotes: (record: Veterinarian) => void;
 }
 
-const STATUS: Record<ContactStatus, { color: string; label: string }> = {
+const HEADERS = [
+  'Name',
+  'State',
+  'City',
+  'County',
+  'Profession',
+  'License #',
+  'Issue Date',
+  'Expiration Date',
+  'Contact Status',
+  'Assigned To',
+  'Email',
+  'Phone',
+  'Notes',
+  'Action',
+];
+
+const STATUS_CONFIG: Record<ContactStatus, { color: string; label: string }> = {
   NOT_CONTACTED: { color: 'bg-gray-100 text-gray-800', label: 'Not Contacted' },
   CONTACTED: { color: 'bg-emerald-100 text-emerald-800', label: 'Contacted' },
   FOLLOW_UP_NEEDED: {
@@ -43,22 +71,6 @@ const STATUS: Record<ContactStatus, { color: string; label: string }> = {
   IN_QUEUE: { color: 'bg-yellow-100 text-yellow-800', label: 'In Queue' },
 };
 
-const HEADERS = [
-  'Name',
-  'State',
-  'City',
-  'County',
-  'Profession',
-  'License #',
-  'Issue Date',
-  'Expiration Date',
-  'Contact Status',
-  'Assigned to',
-  'Phone',
-  'Email',
-  'Action',
-];
-
 export function VeterinariansTable({
   data,
   currentPage,
@@ -66,8 +78,37 @@ export function VeterinariansTable({
   pageSize,
   onPageChange,
   onPageSizeChange,
+  selectedRecords,
+  onSelectionChange,
+  onOpenNotes,
 }: Props) {
   const [editingVetId, setEditingVetId] = useState<number | null>(null);
+
+  const allSelected =
+    data.length > 0 && data.every((r) => selectedRecords.has(r.id));
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      onSelectionChange(new Set(data.map((r) => r.id)));
+    } else {
+      onSelectionChange(new Set());
+    }
+  };
+
+  const handleSelectOne = (id: number, checked: boolean) => {
+    const newSelected = new Set(selectedRecords);
+    if (checked) {
+      newSelected.add(id);
+    } else {
+      newSelected.delete(id);
+    }
+    onSelectionChange(newSelected);
+  };
+
+  const formatNotePreview = (notes: string | null) => {
+    if (!notes) return 'No notes';
+    return notes.length > 80 ? `${notes.slice(0, 80)}...` : notes;
+  };
 
   return (
     <div className="relative">
@@ -84,87 +125,184 @@ export function VeterinariansTable({
         </div>
       )}
 
-      <div className="overflow-hidden rounded-lg border border-gray-200 shadow-sm">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              {HEADERS.map((h) => (
-                <TableHead key={h}>{h}</TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-
-          <TableBody>
-            {data.map((vet) => (
-              <TableRow key={vet.id}>
-                <TableCell className="font-medium text-gray-900">
-                  {vet.fullName}
-                </TableCell>
-
-                <TableCell>{vet.state}</TableCell>
-                <TableCell>{vet.city}</TableCell>
-                <TableCell>{vet.county || '—'}</TableCell>
-                <TableCell>{vet.licenseProfession}</TableCell>
-
-                <TableCell className="font-mono">{vet.licenseNumber}</TableCell>
-
-                <TableCell>{formatDate(vet.issueDate)}</TableCell>
-                <TableCell>{formatDate(vet.expirationDate)}</TableCell>
-
-                <TableCell>
-                  <span
-                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS[vet.contactStatus].color}`}
-                  >
-                    {STATUS[vet.contactStatus].label}
-                  </span>
-                </TableCell>
-
-                <TableCell>
-                  {vet.assignedTo?.fullName ?? (
-                    <span className="text-gray-400 italic">Unassigned</span>
-                  )}
-                </TableCell>
-
-                <TableCell>{vet.phone || '—'}</TableCell>
-
-                <TableCell>
-                  {vet.email ? (
-                    <a
-                      href={`mailto:${vet.email}`}
-                      className="text-blue-600 hover:text-blue-800 hover:underline"
-                    >
-                      {vet.email}
-                    </a>
-                  ) : (
-                    <span className="text-gray-400">—</span>
-                  )}
-                </TableCell>
-
-                <TableCell>
-                  <div className="flex items-center gap-1.5">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setEditingVetId(vet.id)}
-                      aria-label="Edit veterinarian"
-                    >
-                      <Pencil />
-                    </Button>
-
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      aria-label="Delete veterinarian"
-                      className="text-red-600 hover:bg-red-50 hover:text-red-700"
-                    >
-                      <Trash2 />
-                    </Button>
-                  </div>
-                </TableCell>
+      <div className="w-full overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-12">
+                  <Checkbox
+                    checked={allSelected}
+                    onCheckedChange={handleSelectAll}
+                  />
+                </TableHead>
+                {HEADERS.map((header) => (
+                  <TableHead key={header}>{header}</TableHead>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+
+            <TableBody>
+              {data.map((vet) => (
+                <TableRow
+                  key={vet.id}
+                  className={selectedRecords.has(vet.id) ? 'bg-blue-50' : ''}
+                >
+                  <TableCell>
+                    <Checkbox
+                      checked={selectedRecords.has(vet.id)}
+                      onCheckedChange={(checked) =>
+                        handleSelectOne(vet.id, checked as boolean)
+                      }
+                    />
+                  </TableCell>
+
+                  <TableCell className="font-medium text-gray-900">
+                    {vet.fullName}
+                  </TableCell>
+
+                  <TableCell>
+                    <Badge variant="outline">{vet.state}</Badge>
+                  </TableCell>
+
+                  <TableCell className="text-sm text-gray-500">
+                    {vet.city}
+                  </TableCell>
+
+                  <TableCell className="text-sm text-gray-500">
+                    {vet.county || '—'}
+                  </TableCell>
+
+                  <TableCell>
+                    <Badge
+                      variant="secondary"
+                      style={
+                        vet.licenseProfession === 'Veterinarian'
+                          ? { backgroundColor: '#e0f2fe', color: '#0369a1' }
+                          : { backgroundColor: '#fee2e2', color: '#991b1b' }
+                      }
+                    >
+                      {vet.licenseProfession}
+                    </Badge>
+                  </TableCell>
+
+                  <TableCell className="font-mono text-sm">
+                    {vet.licenseNumber}
+                  </TableCell>
+
+                  <TableCell className="text-sm text-gray-500">
+                    {formatDate(vet.issueDate)}
+                  </TableCell>
+
+                  <TableCell className="text-sm text-gray-500">
+                    {formatDate(vet.expirationDate)}
+                  </TableCell>
+
+                  <TableCell>
+                    <Badge
+                      variant="outline"
+                      className="text-xs"
+                      style={{
+                        borderColor: '#2095d2',
+                        color: '#2095d2',
+                      }}
+                    >
+                      {STATUS_CONFIG[vet.contactStatus]?.label ??
+                        vet.contactStatus}
+                    </Badge>
+                  </TableCell>
+
+                  <TableCell>
+                    {vet.assignedTo ? (
+                      <Badge variant="secondary" className="text-xs">
+                        {vet.assignedTo.fullName.split(' ')[0]}
+                      </Badge>
+                    ) : (
+                      <span className="text-xs text-gray-400 italic">
+                        Unassigned
+                      </span>
+                    )}
+                  </TableCell>
+
+                  <TableCell className="text-sm text-gray-500">
+                    {vet.email ? (
+                      <a
+                        href={`mailto:${vet.email}`}
+                        className="text-blue-600 hover:text-blue-800 hover:underline"
+                      >
+                        {vet.email}
+                      </a>
+                    ) : (
+                      <span className="text-gray-400">—</span>
+                    )}
+                  </TableCell>
+
+                  <TableCell className="text-sm text-gray-500">
+                    {vet.phone || '—'}
+                  </TableCell>
+
+                  <TableCell>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => onOpenNotes(vet)}
+                            className="gap-2"
+                          >
+                            <MessageSquare className="h-4 w-4" />
+                            {vet.notes ? (
+                              <Badge
+                                variant="secondary"
+                                className="text-xs"
+                                style={{
+                                  backgroundColor: '#2095d2',
+                                  color: 'white',
+                                }}
+                              >
+                                1
+                              </Badge>
+                            ) : (
+                              <span className="text-xs text-gray-400">Add</span>
+                            )}
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-xs bg-white">
+                          <p className="text-xs">
+                            {formatNotePreview(vet.notes)}
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </TableCell>
+
+                  <TableCell>
+                    <div className="flex items-center gap-1.5">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setEditingVetId(vet.id)}
+                        aria-label="Edit veterinarian"
+                      >
+                        <Pencil />
+                      </Button>
+
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        aria-label="Delete veterinarian"
+                        className="text-red-600 hover:bg-red-50 hover:text-red-700"
+                      >
+                        <Trash2 />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
 
         {data.length > 0 ? (
           <Pagination
@@ -175,8 +313,8 @@ export function VeterinariansTable({
             onPageSizeChange={onPageSizeChange}
           />
         ) : (
-          <div className="py-8 text-center text-gray-500">
-            No veterinarians found
+          <div className="p-8 text-center text-gray-500">
+            No records found. Try adjusting your filters.
           </div>
         )}
       </div>
