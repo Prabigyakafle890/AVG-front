@@ -40,7 +40,7 @@ export default function Dashboard() {
               overviewData?.data.totalVetTechnicians.toLocaleString() ?? '0'
             }
             color="text-red-700"
-            accentColor="#ef4444"
+            accentColor="#e70b04"
           />
         </div>
         <div className="space-y-6">

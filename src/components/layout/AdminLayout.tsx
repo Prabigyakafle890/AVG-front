@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Home, Building2, Menu, LogOut } from 'lucide-react';
+import { Home, Building2, Users, Menu, LogOut } from 'lucide-react';
 
 export default function AdminLayout({
   children,
@@ -28,7 +28,7 @@ export default function AdminLayout({
     <section className="flex min-h-screen font-sans">
       <aside
         className={clsx(
-          'flex shrink-0 flex-col bg-[#903749] transition-all duration-300 ease-in-out',
+          'flex shrink-0 flex-col bg-[#354a71] transition-all duration-300 ease-in-out',
           isSidebarOpen ? 'w-64' : 'w-0 overflow-hidden'
         )}
       >
@@ -38,27 +38,39 @@ export default function AdminLayout({
         <nav className="flex-1 space-y-1 px-4">
           <div
             className={clsx(
-              'flex cursor-pointer items-center space-x-3 rounded-lg px-4 py-3 transition-colors',
+              'flex cursor-pointer items-center space-x-3 rounded-lg px-4 py-3.5 transition-colors',
               isActive('/dashboard')
-                ? 'bg-[#E84545] font-semibold text-white'
+                ? 'bg-[#e70b04] font-semibold text-white'
                 : 'text-white/70 hover:bg-[#53354A] hover:text-white'
             )}
             onClick={() => navigate('/dashboard')}
           >
-            <Home className="h-5 w-5" />
+            <Home className="h-8 w-6" />
             <span className="text-sm font-medium">Dashboard</span>
           </div>
           <div
             className={clsx(
-              'flex cursor-pointer items-center space-x-3 rounded-lg px-4 py-3 transition-colors',
+              'flex cursor-pointer items-center space-x-3 rounded-lg px-4 py-3.5 transition-colors',
               isActive('/veterinarians')
-                ? 'bg-[#E84545] font-semibold text-white'
+                ? 'bg-[#e70b04] font-semibold text-white'
                 : 'text-white/70 hover:bg-[#53354A] hover:text-white'
             )}
             onClick={() => navigate('/veterinarians')}
           >
-            <Building2 className="h-5 w-5" />
+            <Building2 className="h-8 w-6" />
             <span className="text-sm font-medium">Veterinarians & Techs</span>
+          </div>
+          <div
+            className={clsx(
+              'flex cursor-pointer items-center space-x-3 rounded-lg px-4 py-3.5 transition-colors',
+              isActive('/clinics')
+                ? 'bg-[#e70b04] font-semibold text-white'
+                : 'text-white/70 hover:bg-[#53354A] hover:text-white'
+            )}
+            onClick={() => navigate('/Accounts')}
+          >
+            <Users className="h-8 w-6" />
+            <span className="text-sm font-medium">Accounts</span>
           </div>
         </nav>
       </aside>

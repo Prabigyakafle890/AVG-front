@@ -14,7 +14,7 @@ import type { Veterinarian, ContactStatus } from './types';
 
 export default function VeterinariansPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(20);
   const [selectedRecords, setSelectedRecords] = useState<Set<number>>(
     new Set()
   );
