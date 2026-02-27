@@ -10,7 +10,7 @@ function Table({ className, ...props }: React.ComponentProps<'table'>) {
     >
       <table
         data-slot="table"
-        className={cn('w-full caption-bottom text-sm', className)}
+        className={cn('w-full table-auto caption-bottom text-sm', className)}
         {...props}
       />
     </div>
@@ -21,7 +21,10 @@ function TableHeader({ className, ...props }: React.ComponentProps<'thead'>) {
   return (
     <thead
       data-slot="table-header"
-      className={cn('bg-gray-50 [&_tr]:border-b', className)}
+      className={cn(
+        'bg-slate-50 [&_tr]:border-b [&_tr]:border-gray-200',
+        className
+      )}
       {...props}
     />
   );
@@ -54,7 +57,10 @@ function TableRow({ className, ...props }: React.ComponentProps<'tr'>) {
   return (
     <tr
       data-slot="table-row"
-      className={cn('transition-colors hover:bg-gray-50', className)}
+      className={cn(
+        'border-b border-gray-100 transition-colors hover:bg-gray-50/70',
+        className
+      )}
       {...props}
     />
   );
@@ -65,7 +71,7 @@ function TableHead({ className, ...props }: React.ComponentProps<'th'>) {
     <th
       data-slot="table-head"
       className={cn(
-        'px-4 py-3 text-left text-xs font-semibold tracking-wide whitespace-nowrap text-gray-700 uppercase [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5',
+        'px-3 py-2.5 text-left text-xs font-semibold tracking-wider whitespace-nowrap text-gray-500 uppercase [&:has([role=checkbox])]:px-3 [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5',
         className
       )}
       {...props}
@@ -78,7 +84,7 @@ function TableCell({ className, ...props }: React.ComponentProps<'td'>) {
     <td
       data-slot="table-cell"
       className={cn(
-        'px-4 py-3 text-sm whitespace-nowrap text-gray-600 [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5',
+        'px-3 py-2.5 text-sm text-gray-700 [&:has([role=checkbox])]:px-3 [&:has([role=checkbox])]:pr-0 *:[[role=checkbox]]:translate-y-0.5',
         className
       )}
       {...props}

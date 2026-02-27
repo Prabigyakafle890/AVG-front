@@ -3,13 +3,18 @@ import {
   fetchVeterinarians,
   detailVeterinarians,
   editVeterinarians,
+  type VetListFilters,
 } from '../services/veterinariansApi';
 import type { VeterinarianDetail } from '../types';
 
-export const useVetsList = (page: number = 1, pageSize: number = 100) => {
+export const useVetsList = (
+  page: number = 1,
+  pageSize: number = 100,
+  filters: VetListFilters = {}
+) => {
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['veterinarians', 'list', page, pageSize],
-    queryFn: () => fetchVeterinarians(page, pageSize),
+    queryKey: ['veterinarians', 'list', page, pageSize, filters],
+    queryFn: () => fetchVeterinarians(page, pageSize, filters),
     staleTime: 5 * 60 * 1000,
   });
 

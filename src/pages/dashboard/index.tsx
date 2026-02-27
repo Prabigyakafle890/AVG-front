@@ -23,7 +23,7 @@ export default function Dashboard() {
           Overview of veterinary professionals across all states
         </h1>
 
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <StatCard
             title="Total Candidates"
             value={overviewData?.data.totalCandidates.toLocaleString() ?? '0'}

@@ -9,18 +9,39 @@ const VETERINARIANS_URL = 'veterinarians/list/';
 const VETERINARIANS_EDIT_URL = 'veterinarians/update/{id}/';
 const VETERINARIANS_DETAIL_URL = 'veterinarians/detail/{id}/';
 
+export interface VetListFilters {
+  state?: string;
+  contactStatus?: string;
+  profession?: string;
+  search?: string;
+}
+
 export const fetchVeterinarians = async (
   page: number = 1,
-  pageSize: number = 100
+  pageSize: number = 100,
+  filters: VetListFilters = {}
 ): Promise<VeterinariansResponse> => {
+  const params: Record<string, string | number> = {
+    page,
+    page_size: pageSize,
+  };
+
+  if (filters.state && filters.state !== 'all') {
+    params.state = filters.state;
+  }
+  if (filters.contactStatus && filters.contactStatus !== 'all') {
+    params.contact_status = filters.contactStatus;
+  }
+  if (filters.profession && filters.profession !== 'all') {
+    params.license_profession = filters.profession;
+  }
+  if (filters.search) {
+    params.search = filters.search;
+  }
+
   const response = await axiosInstance.get<VeterinariansResponse>(
     VETERINARIANS_URL,
-    {
-      params: {
-        page,
-        page_size: pageSize,
-      },
-    }
+    { params }
   );
   return response.data;
 };
