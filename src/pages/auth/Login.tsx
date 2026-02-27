@@ -21,18 +21,16 @@ export const LoginPage = () => {
 
         <div className="relative z-10 px-16 text-white xl:px-24">
           <div className="mb-12 flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/30 bg-white/20 shadow-xl backdrop-blur-lg">
-              <span className="text-xs font-black tracking-tighter">AVG</span>
-            </div>
+            <img
+              src="/images/logo.png"
+              alt="AVG Logo"
+              className="h-10 w-auto"
+            />
             <div className="h-px w-8 bg-white/30"></div>
-            <span className="text-sm font-bold tracking-[0.2em] text-blue-100/80 uppercase">
-              Recruitment
-            </span>
           </div>
 
           <h1 className="max-w-xl text-5xl leading-[1.1] font-bold xl:text-7xl">
             Veterinary <br />
-            <span className="text-blue-300">Recruitment</span> Portal
           </h1>
 
           <p className="mt-8 max-w-md text-xl leading-relaxed text-blue-50/70">

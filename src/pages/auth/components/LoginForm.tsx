@@ -17,10 +17,9 @@ export default function LoginForm() {
 
   return (
     <div className="w-full max-w-md">
+      <img src="/images/logo.png" alt="AVG Logo" className="mx-auto h-10" />
+
       <div className="mb-10 text-center">
-        <h2 className="text-4xl font-semibold tracking-tight text-slate-800">
-          Sign In
-        </h2>
         <p className="mt-3 text-lg text-slate-500">
           Access the recruitment dashboard
         </p>
@@ -63,15 +62,6 @@ export default function LoginForm() {
         >
           {isPending ? 'Signing in...' : 'Sign In'}
         </Button>
-
-        <div className="mt-6 text-center">
-          <a
-            href="#"
-            className="text-sm font-semibold text-[#2da1db] hover:underline"
-          >
-            Forgot password?
-          </a>
-        </div>
       </form>
     </div>
   );

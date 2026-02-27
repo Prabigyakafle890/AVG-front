@@ -77,35 +77,33 @@ export function Pagination({
 
   return (
     <div className="flex items-center justify-between border-t border-gray-200 bg-gray-50 px-4 py-3">
-      <div className="flex items-center gap-4">
-        <div className="text-sm text-gray-700">
-          Showing <span className="font-medium">{startItem}</span> to{' '}
-          <span className="font-medium">{endItem}</span> of{' '}
-          <span className="font-medium">{totalCount}</span> results
-        </div>
+      <div className="text-sm text-gray-700">
+        Showing <span className="font-medium">{startItem}</span> to{' '}
+        <span className="font-medium">{endItem}</span> of{' '}
+        <span className="font-medium">{totalCount}</span> results
+      </div>
 
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-700">Show</span>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="h-8 gap-1">
-                {pageSize}
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              {pageSizeOptions.map((size) => (
-                <DropdownMenuItem
-                  key={size}
-                  onClick={() => onPageSizeChange(size)}
-                  className={pageSize === size ? 'bg-accent' : ''}
-                >
-                  {size} per page
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+      <div className="flex items-center gap-x-5">
+        <p className="text-sm text-gray-700">Show Per Page: </p>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className="h-8 gap-1">
+              {pageSize}
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            {pageSizeOptions.map((size) => (
+              <DropdownMenuItem
+                key={size}
+                onClick={() => onPageSizeChange(size)}
+                className={pageSize === size ? 'bg-accent' : ''}
+              >
+                {size}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       <PaginationWrapper>
